@@ -1,7 +1,8 @@
 import {
     calculateShopTotal,
-    discountItemList
-} from '../src/calculateShop'
+    calculateShopTotalUseMock
+} from '../src/calculateShop';
+import * as checkIncludeDiscountItemListModule from '../src/checkIncludeDiscountItemList';
 let shopData = [{
         name: '衣服',
         count: 3,
@@ -30,9 +31,17 @@ describe('Mock functions', () => {
         expect(mockFn.mock.calls.length).toBe(3)
     })
     test('mock first arg of first call', () => {
-        expect(mockFn.mock.calls.[0][0]).toBe('衣服')
+        expect(mockFn.mock.calls. [0][0]).toBe('衣服')
     })
-     test('mock result of second call ', () => {
+    test('mock result of second call ', () => {
         expect(mockFn.mock.results[1].value).toBe(false)
+    })
+})
+
+describe('use jest.mock ', () => {
+    const checkIncludeDiscountItemListMock = jest.spyOn(checkIncludeDiscountItemListModule, 'checkIncludeDiscountItemList')
+    checkIncludeDiscountItemListMock.mockReturnValue(false)
+    test('price total', () => {
+        expect(calculateShopTotalUseMock(shopData)).toBe(318)
     })
 })
